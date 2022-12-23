@@ -9,15 +9,30 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import Modal from '@mui/material/Modal';
 import { Button, Divider, MenuList } from '@mui/material';
-import {blueGrey} from '@mui/material/colors'
+import GoogleLogin from 'react-google-login';
 
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+const clientId = "1035078456632-nm216jrt2n6b1kc06p00rt3uaa96rbc7.apps.googleusercontent.com";
 
-
-// const settings = ['My Profile', 'Wishlist', 'Cart',  'Logout'];
 
 const  ResponsiveAppBar = ()=> {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  
   
 
   //Icon DropDown
@@ -29,33 +44,23 @@ const  ResponsiveAppBar = ()=> {
     setAnchorElUser(null);
   };
 
-  //Login Button
+  //Google Login
 
-  const handleLoginUserProfile =  () => {
-    console.log("Hello");
-  }
+  const handleFailure = (result: String) => {
+    console.log(result);
+  };
 
-  //testing for github
+  const handleLogin = (googleData: any) => {
+    console.log(googleData);
 
-
-  //testing again
-
-  //terminzal testing for github
+  };
   
-
-  
-
   return (
-
-   
-    <AppBar position="static">
+  
+  <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          
-          
-          <Box sx={{ flexGrow: 1, display: { xs: '', md: 'flex' } , }}>
-            
-          </Box>
+        <Box sx={{ flexGrow: 1, display: { xs: '', md: 'flex' } , }}></Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -84,7 +89,22 @@ const  ResponsiveAppBar = ()=> {
                   <Typography><Button>My Profile</Button></Typography>
                   <Typography><Button>Wishlist</Button></Typography>
                   <Typography><Button>Cart</Button><Divider /></Typography>
-                  <Typography><Button onClick={handleLoginUserProfile}>Login</Button></Typography>
+                  <Button onClick={handleOpen} >Login</Button>
+                  <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"  >
+                    <Box sx={style}>
+                    <GoogleLogin
+                    clientId={clientId}
+                    onSuccess={handleLogin}
+                    onFailure={handleFailure}
+                    cookiePolicy={'single_host_origin'}/>,
+                  </Box>
+                  </Modal>
+
+
                 <Typography><Button >Logout</Button></Typography>
                 </MenuList>
                 </MenuItem>
