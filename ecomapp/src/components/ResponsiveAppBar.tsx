@@ -30,6 +30,10 @@ const  ResponsiveAppBar = ()=> {
   };
 
   //Login Button
+
+  const handleLoginUserProfile =  () => {
+    console.log("Hello");
+  }
   
 
   
@@ -73,8 +77,8 @@ const  ResponsiveAppBar = ()=> {
                   <Typography><Button>My Profile</Button></Typography>
                   <Typography><Button>Wishlist</Button></Typography>
                   <Typography><Button>Cart</Button><Divider /></Typography>
-                  <Typography><Button>Login</Button></Typography>
-                <Typography><Button>Logout</Button></Typography>
+                  <Typography><Button onClick={handleLoginUserProfile}>Login</Button></Typography>
+                <Typography><Button >Logout</Button></Typography>
                 </MenuList>
                 </MenuItem>
                 
