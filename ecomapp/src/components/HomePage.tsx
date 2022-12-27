@@ -10,11 +10,6 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import WorkSharpIcon from '@mui/icons-material/WorkSharp';
 
-
-
-
-
-
 const itemData = [
     {
       img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
@@ -66,7 +61,7 @@ const itemData = [
     },
   ];
 
-export default function BasicCard() {
+const HomePage = () => {
 
 
     const handleAlert = () => {
@@ -123,3 +118,4 @@ export default function BasicCard() {
 </div>
   );
 }
+ export default HomePage;
