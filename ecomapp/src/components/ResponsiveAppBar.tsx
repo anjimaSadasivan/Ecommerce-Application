@@ -11,7 +11,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Modal from '@mui/material/Modal';
 import { Button, Divider, MenuList } from '@mui/material';
-import GoogleLogin from 'react-google-login';
+import GoogleLogin, { GoogleLogout } from 'react-google-login';
+import { Google } from '@mui/icons-material';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -24,7 +25,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-const clientId = "1035078456632-nm216jrt2n6b1kc06p00rt3uaa96rbc7.apps.googleusercontent.com";
+const clientId = "1035078456632-tebre7uis13u1d3t8k99rdt3jlg9cmo8.apps.googleusercontent.com";
 
 
 const  ResponsiveAppBar = ()=> {
@@ -46,6 +47,13 @@ const  ResponsiveAppBar = ()=> {
 
   //Google Login
 
+  const responseGoogle = (response: any) => {
+    console.log(response);
+  }
+
+
+      
+
   const handleFailure = (result: String) => {
     console.log(result);
   };
@@ -54,6 +62,16 @@ const  ResponsiveAppBar = ()=> {
     console.log(googleData);
 
   };
+
+  
+
+  //Google Logout
+
+  const handleLogout = () => {
+    <GoogleLogout
+     clientId={clientId}>
+    </GoogleLogout>
+  }
   
   return (
   
@@ -97,15 +115,27 @@ const  ResponsiveAppBar = ()=> {
                     aria-describedby="modal-modal-description"  >
                     <Box sx={style}>
                     <GoogleLogin
+
                     clientId={clientId}
-                    onSuccess={handleLogin}
-                    onFailure={handleFailure}
-                    cookiePolicy={'single_host_origin'}/>,
+                    // onSuccess={handleLogin}
+                    // onFailure={handleFailure}
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    
+                    
+
+                    cookiePolicy={'single_host_origin'}
+
+                   
+                    
+                    
+                    
+                    />,
                   </Box>
                   </Modal>
 
 
-                <Typography><Button >Logout</Button></Typography>
+                <Typography><Button onClick={handleLogout}>Logout</Button></Typography>
                 </MenuList>
                 </MenuItem>
                 
