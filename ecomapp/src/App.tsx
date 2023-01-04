@@ -1,9 +1,8 @@
-import { Home } from '@mui/icons-material';
-import React from 'react';
-import { Route, Routes} from 'react-router-dom';
 import './App.css';
 import HomePage from './components/HomePage';
+import Login from './components/Login'
 import ResponsiveAppBar from './components/ResponsiveAppBar';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 
 
@@ -12,9 +11,18 @@ const App = () => {
 
   return (
     <div>
-     
-     <ResponsiveAppBar></ResponsiveAppBar>
+
+<GoogleOAuthProvider clientId="1035078456632-v6fovvukpgeo786ra7bs8und65cgep34.apps.googleusercontent.com">
+<ResponsiveAppBar></ResponsiveAppBar>
      <HomePage></HomePage>
+     <Login></Login>
+
+
+</GoogleOAuthProvider>
+    
+     
+     
+    
 
       
      

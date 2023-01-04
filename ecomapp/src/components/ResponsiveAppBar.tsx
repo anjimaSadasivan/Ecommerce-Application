@@ -1,40 +1,27 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import Modal from '@mui/material/Modal';
-import { Button, Divider, MenuList } from '@mui/material';
-import GoogleLogin, { GoogleLogout } from 'react-google-login';
-import { Google } from '@mui/icons-material';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import axios from "axios";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import SearchIcon from "@mui/icons-material/Search";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import WorkSharpIcon from "@mui/icons-material/WorkSharp";
+import { Button, Divider, MenuList } from "@mui/material";
+import { useEffect, useState } from "react";
 
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-const clientId = "1035078456632-tebre7uis13u1d3t8k99rdt3jlg9cmo8.apps.googleusercontent.com";
+const ResponsiveAppBar = () => {
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
 
-
-const  ResponsiveAppBar = ()=> {
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  
-  
+  const [product, setProductList] = useState([{}]);
 
   //Icon DropDown
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -45,106 +32,66 @@ const  ResponsiveAppBar = ()=> {
     setAnchorElUser(null);
   };
 
-  //Google Login
-
-  const responseGoogle = (response: any) => {
-    console.log(response);
-  }
-
-
-      
-
-  const handleFailure = (result: String) => {
-    console.log(result);
-  };
-
-  const handleLogin = (googleData: any) => {
-    console.log(googleData);
-
-  };
-
-  
-
-  //Google Logout
-
-  const handleLogout = () => {
-    <GoogleLogout
-     clientId={clientId}>
-    </GoogleLogout>
-  }
-  
   return (
-  
-  <AppBar position="static">
+    <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-        <Box sx={{ flexGrow: 1, display: { xs: '', md: 'flex' } , }}></Box>
+          <Box sx={{ flexGrow: 1, display: { xs: "", md: "flex" } }}></Box>
           <Box sx={{ flexGrow: 0 }}>
+            <IconButton sx={{ p: 2 }}>
+              <SearchIcon />
+            </IconButton>
+            <IconButton sx={{ p: 2 }}>
+              <FavoriteIcon />
+            </IconButton>
+            <IconButton sx={{ p: 2 }}>
+              <WorkSharpIcon />
+            </IconButton>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar />
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 3 }}>
+                <Avatar src="https://lh3.googleusercontent.com/a/AEdFTp6hjqrHHQ9yGG6IqocaDHAdZ8rA3JkX139aTaOW=s96-c" />
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <MenuList>
-                  <Typography><Button>My Profile</Button></Typography>
-                  <Typography><Button>Wishlist</Button></Typography>
-                  <Typography><Button>Cart</Button><Divider /></Typography>
-                  <Button onClick={handleOpen} >Login</Button>
-                  <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"  >
-                    <Box sx={style}>
-                    <GoogleLogin
+              <MenuItem onClick={handleCloseUserMenu}>
+                <MenuList>
+                  <Typography>
+                    <Button>My Profile</Button>
+                  </Typography>
+                  <Typography>
+                    <Button>Wishlist</Button>
+                  </Typography>
+                  <Typography>
+                    <Button>Cart</Button>
+                    <Divider />
+                  </Typography>
+                  <Button>Login</Button>
 
-                    clientId={clientId}
-                    // onSuccess={handleLogin}
-                    // onFailure={handleFailure}
-                    onSuccess={responseGoogle}
-                    onFailure={responseGoogle}
-                    
-                    
-
-                    cookiePolicy={'single_host_origin'}
-
-                   
-                    
-                    
-                    
-                    />,
-                  </Box>
-                  </Modal>
-
-
-                <Typography><Button onClick={handleLogout}>Logout</Button></Typography>
+                  <Typography>
+                    <Button>Logout</Button>
+                  </Typography>
                 </MenuList>
-                </MenuItem>
-                
-             
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
-}
+};
 export default ResponsiveAppBar;

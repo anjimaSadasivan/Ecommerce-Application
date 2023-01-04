@@ -1,121 +1,125 @@
-import Card from '@mui/joy/Card';
-import IconButton from '@mui/joy/IconButton';
-import ImageList from '@mui/material/ImageList';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Typography from '@mui/material/Typography';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import SearchIcon from '@mui/icons-material/Search';
-import WorkSharpIcon from '@mui/icons-material/WorkSharp';
-
-const itemData = [
-    {
-      img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      title: 'Breakfast',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-      title: 'Burger',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-      title: 'Camera',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-      title: 'Coffee',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-      title: 'Hats',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-      title: 'Honey',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-      title: 'Basketball',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-      title: 'Fern',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-      title: 'Mushrooms',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-      title: 'Tomato basil',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-      title: 'Sea star',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-      title: 'Bike',
-    },
-  ];
+import * as React from "react";
+import { useEffect, useState } from "react";
+import Card from "@mui/joy/Card";
+import axios from "axios";
+import IconButton from "@mui/joy/IconButton";
+import ImageList from "@mui/material/ImageList";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Typography from "@mui/material/Typography";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import AspectRatio from "@mui/joy/AspectRatio";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Container from "@mui/material/Container";
+import Autocomplete from "@mui/material/Autocomplete";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import { Button } from "@mui/material";
+import { TextField } from "@material-ui/core";
 
 const HomePage = () => {
+  const [product, setProductList] = useState([{}]);
+  const [selectedName, setSelected] = useState([]);
+  const [minAmount, setMinAmount] = useState<number>(0);
+  const [maxAmount, setMaxAmount] = useState<number>(0);
+  const [filterStatus, setFilterStatus] = React.useState(false);
 
+  //fetch to list products, filter prodcts using name , minimum amount and maximum amount
 
-    const handleAlert = () => {
-        alert("Added To cart");
-    }
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/reviews/product/", {
+        headers: {
+          productName: selectedName,
+          minAmount: minAmount,
+          maxAmount: maxAmount,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setProductList(res.data);
+      });
+  }, [selectedName, maxAmount, minAmount]);
+
   return (
-
     <div>
-        <div>
-        <IconButton  aria-label="share">
-          <SearchIcon />
-          <FavoriteIcon />
-          <WorkSharpIcon />
+      <IconButton
+        onClick={() => {
+          setFilterStatus(!filterStatus);
+        }}
+      >
+        <FilterAltIcon />
+      </IconButton>
 
-        </IconButton>
+      {filterStatus && (
+        <Container>
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={product.map((item: any) => item.productName)}
+            onChange={(event, value) => setSelected(value)}
+            sx={{ width: 200 }}
+            renderInput={(params) => (
+              <TextField {...params} label="Filter By Name" />
+            )}
+          />
 
-        </div>
-    
-    
+          <TextField
+            type="number"
+            label="Min"
+            value={minAmount}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setMinAmount(Number(event.target.value))
+            }
+          />
+          <TextField
+            type="number"
+            label="Max"
+            value={maxAmount}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setMaxAmount(Number(event.target.value))
+            }
+          />
 
-    <ImageList sx={{ width: 1800, height: 1550 }} cols={5} rowHeight={164}>
-  {itemData.map((item) => (
-    <Card key={item.img}>
-        
-    <img
-        src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-        srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-        alt= "network error"
-        loading="lazy"
-      />
-
-<CardContent>
-     <Typography gutterBottom variant="h5" component="div">
-       {`${item.title}`}
-     </Typography>
-     <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShoppingCartIcon onClick={handleAlert} />
-        </IconButton>
-       
-      </CardActions>
-
-   </CardContent>
-    </Card>
-     
-  ))}
-</ImageList>
-</div>
+          <Button style={{ backgroundColor: "#21b6ae" }}>Apply Filter</Button>
+        </Container>
+      )}
+      <ImageList>
+        {product.map((item: any) => (
+          <Card key={item.img}>
+            <AspectRatio>
+              <img
+                src="https://images.unsplash.com/photo-1516802273409-68526ee1bdd6"
+                srcSet="https://images.unsplash.com/photo-1516802273409-68526ee1bdd6"
+                alt={item.title}
+                loading="lazy"
+              />
+            </AspectRatio>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {item.productName}
+              </Typography>
+              <Typography gutterBottom variant="h5" component="div">
+                {item.amount}
+              </Typography>
+              <CardActions>
+                <CardActions disableSpacing>
+                  <IconButton aria-label="add to favorites">
+                    <FavoriteIcon />
+                  </IconButton>
+                  <IconButton aria-label="share">
+                    <ShareIcon />
+                  </IconButton>
+                  <IconButton aria-label="share">
+                    <ShoppingCartIcon />
+                  </IconButton>
+                </CardActions>
+              </CardActions>
+            </CardContent>
+          </Card>
+        ))}
+      </ImageList>
+    </div>
   );
-}
- export default HomePage;
+};
+export default HomePage;
