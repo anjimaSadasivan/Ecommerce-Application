@@ -89,8 +89,8 @@ const HomePage = () => {
           <Card key={item.img}>
             <AspectRatio>
               <img
-                src="https://images.unsplash.com/photo-1516802273409-68526ee1bdd6"
-                srcSet="https://images.unsplash.com/photo-1516802273409-68526ee1bdd6"
+                src={item.productImage}
+                srcSet={item.productImage}
                 alt={item.title}
                 loading="lazy"
               />

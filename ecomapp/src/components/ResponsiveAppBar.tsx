@@ -14,6 +14,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import WorkSharpIcon from "@mui/icons-material/WorkSharp";
 import { Button, Divider, MenuList } from "@mui/material";
+import Select from "@mui/material/Select";
 import { useEffect, useState } from "react";
 
 const ResponsiveAppBar = () => {
@@ -46,6 +47,18 @@ const ResponsiveAppBar = () => {
             </IconButton>
             <IconButton sx={{ p: 2 }}>
               <WorkSharpIcon />
+            </IconButton>
+            <IconButton>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Sort"
+              >
+                <MenuItem value={10}>From A-Z</MenuItem>
+                <MenuItem value={10}>From Z-A</MenuItem>
+                <MenuItem value={20}>From Higher to Lower </MenuItem>
+                <MenuItem value={30}>From Lower to Higher</MenuItem>
+              </Select>
             </IconButton>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 3 }}>
