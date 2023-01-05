@@ -1,5 +1,5 @@
 import "./App.css";
-import HomePage from "./components/HomePage";
+import HomePage from "./pages/HomePage";
 import Login from "./components/Login";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import { GoogleOAuthProvider } from "@react-oauth/google";
