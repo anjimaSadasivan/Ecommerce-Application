@@ -14,6 +14,7 @@ const Login = () => {
       onError={() => {
         console.log("LOgin failed");
       }}
+      useOneTap
     />
   );
 };

@@ -1,7 +1,6 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import axios from "axios";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -14,15 +13,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import WorkSharpIcon from "@mui/icons-material/WorkSharp";
 import { Button, Divider, MenuList } from "@mui/material";
-import Select from "@mui/material/Select";
-import { useEffect, useState } from "react";
+import { googleLogout } from "@react-oauth/google";
 
 const ResponsiveAppBar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
-
-  const [product, setProductList] = useState([{}]);
 
   //Icon DropDown
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -31,6 +27,11 @@ const ResponsiveAppBar = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const logoutHandler = () => {
+    googleLogout();
+    console.log("Logout Succesful");
   };
 
   return (
@@ -48,18 +49,7 @@ const ResponsiveAppBar = () => {
             <IconButton sx={{ p: 2 }}>
               <WorkSharpIcon />
             </IconButton>
-            <IconButton>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Sort"
-              >
-                <MenuItem value={10}>From A-Z</MenuItem>
-                <MenuItem value={10}>From Z-A</MenuItem>
-                <MenuItem value={20}>From Higher to Lower </MenuItem>
-                <MenuItem value={30}>From Lower to Higher</MenuItem>
-              </Select>
-            </IconButton>
+            <IconButton></IconButton>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 3 }}>
                 <Avatar src="https://lh3.googleusercontent.com/a/AEdFTp6hjqrHHQ9yGG6IqocaDHAdZ8rA3JkX139aTaOW=s96-c" />
@@ -96,7 +86,7 @@ const ResponsiveAppBar = () => {
                   <Button>Login</Button>
 
                   <Typography>
-                    <Button>Logout</Button>
+                    <Button onClick={logoutHandler}>Logout</Button>
                   </Typography>
                 </MenuList>
               </MenuItem>
